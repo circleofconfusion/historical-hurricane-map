@@ -1,0 +1,22 @@
+{
+  "name": "historical-hurricane-map",
+  "version": "1.0.0",
+  "description": "Searchable interactive map of historical hurricanes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/circleofconfusion/historical-hurricane-map.git"
+  },
+  "author": "Shane Knudsen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/circleofconfusion/historical-hurricane-map/issues"
+  },
+  "homepage": "https://github.com/circleofconfusion/historical-hurricane-map#readme",
+  "dependencies": {
+    "zephjs": "^1.2.0"
+  }
+}
