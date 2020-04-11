@@ -1,0 +1,17 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    height: 100vh;
+}
+
+body > h1 {
+    margin: 0;
+    padding: 3px;
+    background-color: blue;
+    color: white;
+}
