@@ -1,5 +1,5 @@
 import {ZephComponents, html, css, onCreate} from '/node_modules/zephjs/zeph.full.js';
-import {json, geoGraticule, geoPath, geoKavrayskiy7, feature, select} from '/d3-exports.js';
+import {json, geoGraticule, geoPath, geoMercator, feature, select} from '/d3-exports.js';
 
 ZephComponents.define('app-map', () => {
   html('./app-map.html');
@@ -15,8 +15,9 @@ ZephComponents.define('app-map', () => {
       .attr('viewBox', `0 0 ${width} ${height}`)
       .attr('preserveAspectRatio', 'xMidYMin meet');
 		
-    const projection = geoKavrayskiy7()
-      .scale(170)
+    const projection = geoMercator()
+      .scale(350)
+      .center([-50, 45])
       .translate([ width / 2, height / 2])
       .precision(0.1);
 		
@@ -24,16 +25,6 @@ ZephComponents.define('app-map', () => {
 		
     const path = geoPath()
       .projection(projection);
-		
-		
-    svg.append('defs').append('path')
-      .datum({type: 'Sphere'})
-      .attr('id', 'sphere')
-      .attr('d', path);
-		
-    svg.append('use')
-      .attr('class', 'background-fill')
-      .attr('xlink:href', '#sphere');
 		
     svg.append('path')
       .datum(graticule)
@@ -52,9 +43,5 @@ ZephComponents.define('app-map', () => {
       .attr('d', path)
       .append('title')
       .text(d => d.properties.name);
-		
-    svg.append('use')
-      .attr('class', 'background-stroke')
-      .attr('xlink:href', '#sphere');
   });
 });

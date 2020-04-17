@@ -1,20 +1,10 @@
 svg {
+  background: rgb(54, 148, 211);
   width: 100%;
 }
 
-.background-stroke {
-  stroke: black;
-  stroke-width: 4;
-  fill: none;
-}
-
-.background-fill {
-  stroke: none;
-  fill: white;
-}
-
 .graticule {
-  stroke: gray;
+  stroke: darkblue;
   stroke-width: 1;
   fill: none;
 }
