@@ -1,8 +1,60 @@
-import {ZephComponents, html, css} from '../zeph.min.js';
+import {ZephComponents, html, css, onCreate} from '/node_modules/zephjs/zeph.full.js';
+import {json, geoGraticule, geoPath, geoKavrayskiy7, feature, select} from '/d3-exports.js';
 
 ZephComponents.define('app-map', () => {
-    html('./app-map.html');
-    css('./app-map.css');
+  html('./app-map.html');
+  css('./app-map.css');
 
-    // Place your compnent defintion calls here. See the ZephJS documentation for more information.
+  onCreate(async (element, content) => {
+
+    const width = 1000;
+    const height = 540;
+		
+    // FIXME: how to limit this to shadowRoot?
+    const svg = select(content.querySelector('svg'))
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('preserveAspectRatio', 'xMidYMin meet');
+		
+    const projection = geoKavrayskiy7()
+      .scale(170)
+      .translate([ width / 2, height / 2])
+      .precision(0.1);
+		
+    const graticule = geoGraticule();
+		
+    const path = geoPath()
+      .projection(projection);
+		
+		
+    svg.append('defs').append('path')
+      .datum({type: 'Sphere'})
+      .attr('id', 'sphere')
+      .attr('d', path);
+		
+    svg.append('use')
+      .attr('class', 'background-fill')
+      .attr('xlink:href', '#sphere');
+		
+    svg.append('path')
+      .datum(graticule)
+      .attr('class', 'graticule')
+      .attr('d', path);
+		
+    const world = await json('/assets/world-50m.json');
+		
+    const countries = feature(world, world.objects.countries).features;
+		
+    svg.selectAll('path.country')
+      .data(countries)
+      .enter()
+      .insert('path')
+      .attr('class', 'country')
+      .attr('d', path)
+      .append('title')
+      .text(d => d.properties.name);
+		
+    svg.append('use')
+      .attr('class', 'background-stroke')
+      .attr('xlink:href', '#sphere');
+  });
 });

@@ -1,12 +1,4 @@
-
-/*
-	Generated ZephS component: app-sidebar
-
-	ZephJS is copyright 2019, The Awesome Engineering Company
-	and is released under the MIT licesne.
- */
-
-import {ZephComponents, html, css} from './zeph.min.js';
+import {ZephComponents, html, css} from '/node_modules/zephjs/zeph.full.js';
 
 ZephComponents.define('app-sidebar', () => {
     html('./app-sidebar.html');
