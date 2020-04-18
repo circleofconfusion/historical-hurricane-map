@@ -30,7 +30,7 @@ ZephComponents.define('app-map', () => {
       .attr('class', 'graticule')
       .attr('d', path);
 		
-    const world = await json('/assets/world-50m.json');
+    const world = await json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json');
 		
     const countries = feature(world, world.objects.countries).features;
 		
