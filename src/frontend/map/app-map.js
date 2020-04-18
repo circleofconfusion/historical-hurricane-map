@@ -10,7 +10,6 @@ ZephComponents.define('app-map', () => {
     const width = 1000;
     const height = 540;
 		
-    // FIXME: how to limit this to shadowRoot?
     const svg = select(content.querySelector('svg'))
       .attr('viewBox', `0 0 ${width} ${height}`)
       .attr('preserveAspectRatio', 'xMidYMin meet');
