@@ -1,5 +1,6 @@
 {
   "configurations": [
+
     {
       "name": "Python: debug rawToJson",
       "type": "python",
@@ -9,6 +10,12 @@
         "${workspaceFolder}/data/raw/hurdat2-1851-2019-120319.txt"
       ],
       "console": "integratedTerminal"
+    },
+    {
+      "name": "Debug Query",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/backend/endpoints/query.js"
     }
   ]
 }
