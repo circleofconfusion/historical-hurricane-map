@@ -1,9 +1,10 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const { Hurricane } = require('../schemas/Hurricane');
 
 const util = require('util');
 
-mongoose.connect('mongodb://localhost:27017/hurricanes', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const query = mongoose.model('Hurricane', Hurricane).find(
   { 'properties.year': 2018 },
