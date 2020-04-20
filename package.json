@@ -26,6 +26,7 @@
     "d3-geo-projection": "^2.8.1",
     "eslint": "^6.8.0",
     "serverless": "^1.67.3",
+    "serverless-offline": "^6.1.4",
     "topojson-client": "^3.1.0",
     "zephjs": "^1.2.0"
   },
