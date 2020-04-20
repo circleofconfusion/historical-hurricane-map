@@ -40,7 +40,7 @@ db_user = args.u
 #   db_password = urllib.quote_plus(args.p)
 #   uri = 'mongodb://' + db_user + ':' + db_password + '@' + to_server + ':' + to_port +'/' + to_database
 
-uri = 'mongodb+srv://hurricane:psKgVXGYay4N8sJ8@cluster0-iqz9o.mongodb.net/hurricanes'
+uri = 'mongodb+srv://' + to_database ':' + urllib.quote_plus(args.p) + '@cluster0-iqz9o.mongodb.net/' + to_database
 
 with open(inputfile,'r') as f:
   geojson = json.loads(f.read())
