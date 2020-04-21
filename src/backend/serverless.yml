@@ -58,8 +58,8 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  queryYear:
-    handler: query.queryYear
+  queryByYear:
+    handler: query.queryByYear
     events:
       - http:
           path: /query/year/{year}
@@ -68,6 +68,18 @@ functions:
             parameters:
               paths:
                 year: true
+
+  queryByName:
+    handler: query.queryByName
+    events:
+      - http:
+          path: /query/name/{name}
+          method: GET
+          request:
+            parameters:
+              paths:
+                name: true
+
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
