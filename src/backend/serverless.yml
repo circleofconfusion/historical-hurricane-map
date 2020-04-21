@@ -60,6 +60,14 @@ provider:
 functions:
   queryYear:
     handler: query.queryYear
+    events:
+      - http:
+          path: /queryYear/{year}
+          method: GET
+          request:
+            parameters:
+              paths:
+                year: true
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -115,7 +123,7 @@ functions:
 
 plugins:
   - serverless-offline
-  
+
 custom:
   serverless-offline:
     httpPort: 4000

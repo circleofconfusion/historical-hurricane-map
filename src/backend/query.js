@@ -5,13 +5,16 @@ const mongoose = require('mongoose');
 const { Hurricane } = require('./schemas/Hurricane');
 const util = require('util');
 
-module.exports.queryYear = async event => {
+module.exports = { queryYear };
+
+async function queryYear(event) {
+  console.log(util.inspect(event));
   mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
-  const result = await mongoose.model('Hurricane', Hurricane).find({ 'properties.year': 2018 }).exec();
+  const result = await mongoose.model('Hurricane', Hurricane).find({ 'properties.year': event.pathParameters.year }).exec();
 
   mongoose.connection.close();
-  
+
   return {
     statusCode: 200,
     body: JSON.stringify(result)
