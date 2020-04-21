@@ -62,7 +62,7 @@ functions:
     handler: query.queryYear
     events:
       - http:
-          path: /queryYear/{year}
+          path: /query/year/{year}
           method: GET
           request:
             parameters:
@@ -126,4 +126,4 @@ plugins:
 
 custom:
   serverless-offline:
-    httpPort: 4000
+    httpPort: 4040
