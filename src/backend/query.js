@@ -10,10 +10,9 @@ module.exports = {
   queryByName
 };
 
-mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 async function queryByYear(event) {
-
+  mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
   const result = await mongoose.model('Hurricane', Hurricane).find({ 'properties.year': event.pathParameters.year }).exec();
 
   mongoose.connection.close();
@@ -22,11 +21,11 @@ async function queryByYear(event) {
     statusCode: 200,
     body: JSON.stringify(result)
   };
-
 }
 
 async function queryByName(event) {
-  const result = await mongoose.model('Hurricane', Hurricane).find({ 'properties.name': `'${event.pathParameters.name.toUpperCase()}'` }).exec();
+  mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+  const result = await mongoose.model('Hurricane', Hurricane).find({ 'properties.name': event.pathParameters.name.toUpperCase() }).exec();
   
   mongoose.connection.close();
 
