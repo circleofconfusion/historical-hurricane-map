@@ -1,0 +1,15 @@
+form > div,
+form > fieldset {
+  margin:0;
+  margin-bottom: 1em;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+fieldset > div {
+  margin-left: 1ch;
+}
