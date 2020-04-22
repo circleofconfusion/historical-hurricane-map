@@ -1,11 +1,14 @@
 import {ZephComponents, html, css, onCreate} from '/node_modules/zephjs/zeph.full.js';
 import {json, geoGraticule, geoPath, geoMercator, feature, select} from '/d3-exports.js';
+import { search } from '../eventSvc.js';
 
 ZephComponents.define('app-map', () => {
   html('./app-map.html');
   css('./app-map.css');
 
   onCreate(async (element, content) => {
+
+    search.subscribe(val => console.log(val));
 
     const width = 1000;
     const height = 540;

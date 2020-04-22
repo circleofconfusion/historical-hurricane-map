@@ -1,2 +1,4 @@
-
-/* Place your ZephJS CSS code here. See the ZephJS documentation for more information. */
+:host {
+  border-left: 2px solid blue;
+  padding: 0 5px;
+}
