@@ -1,5 +1,5 @@
-import {ZephComponents, html, css, onCreate} from '/node_modules/zephjs/zeph.full.js';
-import {search} from '../eventSvc.js';
+import { ZephComponents, html, css, onCreate } from 'zephjs';
+import { search } from '../services/searchSvc.js';
 
 ZephComponents.define('app-search', () => {
   html('./app-search.html');

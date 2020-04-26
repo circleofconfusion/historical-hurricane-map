@@ -1,22 +1,14 @@
 import resolve from '@rollup/plugin-node-resolve';
+import zephjsInline from '@rollup/plugin-zephjs-inline';
 
 export default [
   {
-    input: 'd3-deps.js',
+    input: 'index.js',
     output: {
-      file: 'd3-exports.js',
+      file: 'rolled-up-bundle.js',
       format: 'es',
-      name: 'd3-exports'
+      name: 'bundle'
     },
-    plugins: [resolve()]
-  },
-  {
-    input: 'rxjs-deps.js',
-    output: {
-      file: 'rxjs-exports.js',
-      format: 'es',
-      name: 'rxjs-exports'
-    },
-    plugins: [resolve()]
+    plugins: [ resolve(), zephjsInline({ quiet: false }) ]
   }
 ];

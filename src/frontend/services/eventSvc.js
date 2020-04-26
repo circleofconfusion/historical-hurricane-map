@@ -1,4 +1,4 @@
-import { Subject } from '/rxjs-exports.js';
+import { Subject } from 'rxjs';
 
 const hurricanes = new Subject();
 
