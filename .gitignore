@@ -3,3 +3,4 @@ node_modules
 d3-exports.js
 src/backend/.env
 src/frontend/rxjs-exports.js
+dist
