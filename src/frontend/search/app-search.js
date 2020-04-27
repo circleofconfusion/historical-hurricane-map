@@ -7,24 +7,43 @@ ZephComponents.define('app-search', () => {
 
   onCreate((element, content) => {
     const form = content.querySelector('form');
-    const intensityFieldset = content.querySelector('#intensity-fieldset');
-    intensityFieldset.addEventListener('click', () => {
-      search.next(getFormValue());
+    form.addEventListener('submit', evt => {
+      evt.preventDefault();
+      search(getFormData(form));
     });
 
-    function getFormValue() {
-      const intensityValues = Array.from(form.querySelectorAll('#intensity-fieldset input[type="checkbox"]'))
-        .filter(e => e.checked)
-        .map(e => e.value);
-      
-      const specialValues = Array.from(form.querySelectorAll('#special-fieldset input[type="checkbox"]'))
-        .filter(e => e.checked)
-        .map(e => e.value);
-
-      return {
-        intensity: intensityValues,
-        specialConditions: specialValues
-      };
-    }
   });
 });
+
+function getFormData(form) {
+  const formValues = {};
+
+  Array.from(new FormData(form))
+    .filter(formControl => formControl[1])
+    .forEach(formControl => {
+      let key = formControl[0],
+        value = formControl[1];
+
+      // clean up value a bit
+      if (isNaN(value)) {
+        value = value.toUpperCase();
+      } else {
+        value = +value;
+      }
+
+      // Check if key is an array name
+      if (key.charAt(key.length - 1) == ']') {
+        // strip the [] characters from the key
+        key = key.substr(0, key.length - 2);
+        if (formValues[key]) {
+          formValues[key].push(value);
+        } else {
+          formValues[key] = [ value ];
+        }
+      } else {
+        formValues[key] = value;
+      }
+    });
+
+  return formValues;
+}
