@@ -1,10 +1,13 @@
 import { BACKEND_HOST } from '../environments/environment.dev.js';
 import { hurricanes } from './eventSvc.js';
+import { fromFetch } from 'rxjs/fetch';
 
 function search(searchData) {
-  // const result = fetch(`${BACKEND_HOST}/query/search`, searchData);
-  // hurricanes.next(result);
-  console.log(searchData);
+  // TODO: escape ampersands?
+  const queryString = searchData.map(d => d.join('=')).join('&');
+  fromFetch(`${BACKEND_HOST}/search?${queryString}`).subscribe(result => {
+    hurricanes.next(result);
+  });
 }
 
 export { search };
