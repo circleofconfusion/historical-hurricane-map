@@ -3,69 +3,69 @@
   <!-- Name -->
   <!-- TODO: maybe make this a specialized input that autocompletes? -->
   <div>
-    <label for="search-name">
+    <label for="name">
       Storm Name
     </label>
-    <input type="text" id="search-name" name="search-name" />
+    <input type="text" id="name" name="name" />
   </div>
 
   <!-- Year -->
   <!-- TODO: maybe make this a specialized input that autocompletes? -->
   <div>
-    <label for="search-year">
+    <label for="year">
       Storm Year
     </label>
-    <input type="number" id="search-year" name="search-year" />
+    <input type="number" id="year" name="year" />
   </div>
 
   <!-- Category -->
   <fieldset id="intensity-fieldset">
     <legend>Intensity</legend>
     <div>
-      <input type="checkbox" name="intensity[]" value="TD" id="depression">
+      <input type="checkbox" name="intensity" value="TD" id="depression">
       <label for="depression">(Sub)Tropical Depression</label>
     </div>
     <div>
-      <input type="checkbox" name="intensity[]" value="TS" id="storm">
+      <input type="checkbox" name="intensity" value="TS" id="storm">
       <label for="storm">(Sub)Tropical Storm</label>
     </div>
     <div>
-      <input type="checkbox" name="intensity[]" value="C1" id="cat1">
+      <input type="checkbox" name="intensity" value="C1" id="cat1">
       <label for="cat1">Category 1</label>
     </div>
     <div>
-      <input type="checkbox" name="intensity[]" value="C2" id="cat2">
+      <input type="checkbox" name="intensity" value="C2" id="cat2">
       <label for="cat2">Category 2</label>
     </div>
     <div>
-      <input type="checkbox" name="intensity[]" value="C3" id="cat3">
+      <input type="checkbox" name="intensity" value="C3" id="cat3">
       <label for="cat3">Category 3</label>
     </div>
     <div>
-      <input type="checkbox" name="intensity[]" value="C4" id="cat4">
+      <input type="checkbox" name="intensity" value="C4" id="cat4">
       <label for="cat4">Category 4</label>
     </div>
     <div>
-      <input type="checkbox" name="intensity[]" value="C5" id="cat5">
+      <input type="checkbox" name="intensity" value="C5" id="cat5">
       <label for="cat5">Category 5</label>
     </div>
   </fieldset>
   <fieldset id="special-fieldset">
     <legend>Special Conditions</legend>
     <div>
-      <input type="checkbox" name="special[]" value="DB" id="disturbance">
+      <input type="checkbox" name="special" value="DB" id="disturbance">
       <label for="disturbance">Disturbance</label>
     </div>
     <div>
-      <input type="checkbox" name="special[]" value="TW" id="tropical-wave">
+      <input type="checkbox" name="special" value="TW" id="tropical-wave">
       <label for="tropical-wave">Tropical Wave</label>
     </div>
     <div>
-      <input type="checkbox" name="special[]" value="EX" id="extra-tropical">
+      <input type="checkbox" name="special" value="EX" id="extra-tropical">
       <label for="extra-tropical">Extra-Tropical</label>
     </div>
     <div>
-      <input type="checkbox" name="special[]" value="LO" id="low">
+      <input type="checkbox" name="special" value="LO" id="low">
       <label for="low">Non-Cyclone Low</label>
     </div>
   </fieldset>
