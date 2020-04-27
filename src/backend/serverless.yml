@@ -58,6 +58,13 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  search:
+    handler: search.search
+    events:
+      - http:
+          method: GET
+          path: /search
+
   queryByYear:
     handler: query.queryByYear
     events:
