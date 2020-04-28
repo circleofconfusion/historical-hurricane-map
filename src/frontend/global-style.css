@@ -2,11 +2,12 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100vh;
+    overflow: hidden;
 }
 
 body {
-    display: grid;
-    grid-template-rows: min-content 1fr;
+    display: flex;
+    flex-direction: column;
 }
 
 body > header {
@@ -14,6 +15,7 @@ body > header {
     padding: 0;
     background-color: blue;
     color: white;
+    flex: 0;
 }
 
 body > header > h1 {
@@ -25,7 +27,7 @@ body > header > h1 {
 main {
     display: grid;
     grid-template-columns: 1fr 400px;
-    height: 100%;
+    flex: 1 100%;
 }
 
 div.sidebar {
