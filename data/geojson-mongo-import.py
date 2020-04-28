@@ -34,13 +34,15 @@ to_server = args.s
 to_port = args.port
 db_user = args.u
 
+print (to_database)
+
 # if db_user is None:
 #   uri = 'mongodb://' + to_server + ':' + to_port +'/'
 # else:
 #   db_password = urllib.quote_plus(args.p)
 #   uri = 'mongodb://' + db_user + ':' + db_password + '@' + to_server + ':' + to_port +'/' + to_database
 
-uri = 'mongodb+srv://' + to_database ':' + urllib.quote_plus(args.p) + '@cluster0-iqz9o.mongodb.net/' + to_database
+uri = 'mongodb+srv://' + db_user + ':' + urllib.quote_plus(args.p) + '@cluster0-iqz9o.mongodb.net/' + to_database
 
 with open(inputfile,'r') as f:
   geojson = json.loads(f.read())
