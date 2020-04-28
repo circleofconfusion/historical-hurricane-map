@@ -8,7 +8,7 @@ const util = require('util');
 module.exports = { search };
 
 async function search(event) {
-  let { name, year, intensity, special } = event.multiValueQueryStringParameters;
+  let { name, year, status } = event.multiValueQueryStringParameters;
   
   // clean up query params
   if (name && name.length) name = name[0];
@@ -18,8 +18,7 @@ async function search(event) {
   const queryObj = {};
   if (year) queryObj['properties.year'] = +year;
   if (name) queryObj['properties.name'] = name.toUpperCase();
-  if (intensity) queryObj['properties.measurements.systemStatus'] = { $in: intensity };
-  if (special) queryObj['properties.measurements.systemStatus'] = { $in: special };
+  if (status) queryObj['properties.measurements.systemStatus'] = { $in: status };
 
   mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
