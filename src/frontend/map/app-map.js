@@ -11,8 +11,7 @@ ZephComponents.define('app-map', () => {
 
   onCreate(async (element, content) => {
 
-    hurricanes.subscribe(val => console.log(val));
-
+    
     const width = 1000;
     const height = 540;
 		
@@ -28,13 +27,13 @@ ZephComponents.define('app-map', () => {
 		
     const graticule = geoGraticule();
 		
-    const path = geoPath()
+    const geoPathGenerator = geoPath()
       .projection(projection);
 		
     svg.append('path')
       .datum(graticule)
       .attr('class', 'graticule')
-      .attr('d', path);
+      .attr('d', geoPathGenerator);
 		
     const world = await json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json');
 		
@@ -45,8 +44,34 @@ ZephComponents.define('app-map', () => {
       .enter()
       .insert('path')
       .attr('class', 'country')
-      .attr('d', path)
+      .attr('d', geoPathGenerator)
       .append('title')
       .text(d => d.properties.name);
+
+    hurricanes.subscribe(hurricaneFeatures => {
+
+      const hurricaneGroups = svg.selectAll('g')
+        .data(hurricaneFeatures);
+
+      const enteringGroups = hurricaneGroups
+        .enter()
+        .append('g');
+
+      enteringGroups
+        .append('path')
+        .attr('class', 'hurricane-path')
+        .attr('d', geoPathGenerator);
+        
+      hurricaneGroups
+        .exit()
+        .remove();
+        
+      hurricaneGroups
+        .select('path')
+        .classed('hurricane-path', true)
+        .attr('d', geoPathGenerator);
+
+
+    });
   });
 });
