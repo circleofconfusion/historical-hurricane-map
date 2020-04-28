@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
 
 import sys
+import argparse
 from geojson import FeatureCollection, Feature, LineString, dumps
 from datetime import datetime
 import pytz
 
 def main():
-  infileName = sys.argv[1]
-  outfileName = sys.argv[2]
+  parser = argparse.ArgumentParser(description='Convert HurDat database to geojson')
+  parser.add_argument('-i', required=True, help='HurDat input file')
+  parser.add_argument('-o', required=True, help='GeoJSON output file')
+  args = parser.parse_args()
+  
+  infileName = args.i
+  outfileName = args.o
+
   infile = open(infileName)
   outfile = open(outfileName, 'w')
 
@@ -66,12 +73,28 @@ def createMeasurementDict(line):
   lon = float(longitude.strip()[0:-1])
   if longitude[-1] == 'W':
     lon *= -1
+
+  # We know it's a hurricane, be more specific
+  systemStatus = systemStatus.strip()
+  maxWind = int(maxWind.strip())
+  if systemStatus == 'HU':
+    if maxWind <= 82:
+      systemStatus = 'C1'
+    elif maxWind <= 95:
+      systemStatus = 'C2'
+    elif maxWind <= 112:
+      systemStatus = 'C3'
+    elif maxWind <= 136:
+      systemStatus = 'C4'
+    elif maxWind > 136:
+      systemStatus = 'C5'
+
   return {
     'props': {
       'recordIdentifier': recordIdentifier.strip(),
-      'systemStatus': systemStatus.strip(),
+      'systemStatus': systemStatus,
       'dateTime': dateTime.isoformat(),
-      'maxWind': int(maxWind.strip()),
+      'maxWind': maxWind,
       'minPressure': int(minPressure.strip())
     },
     'coordinates': (lon,lat)
