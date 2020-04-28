@@ -9,8 +9,15 @@
 		<!-- Loads the app-main component. -->
 	</head>
 	<body>
-		<h1>North Atlantic Hurricanes</h1>
-		<app-main></app-main>
+		<header>
+			<h1>North Atlantic Hurricanes</h1>
+		</header>
+		<main>
+			<app-map></app-map>
+			<div class="sidebar">
+				<app-search></app-search>
+			</div>
+		</main>
 	</body>
 	<script src="bundle.js" type="module"></script>
 </html>
