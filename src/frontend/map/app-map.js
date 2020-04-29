@@ -49,29 +49,32 @@ ZephComponents.define('app-map', () => {
       .text(d => d.properties.name);
 
     hurricanes.subscribe(hurricaneFeatures => {
-
-      const hurricaneGroups = svg.selectAll('g')
-        .data(hurricaneFeatures);
-
-      const enteringGroups = hurricaneGroups
-        .enter()
-        .append('g');
-
-      enteringGroups
-        .append('path')
-        .attr('class', 'hurricane-path')
-        .attr('d', geoPathGenerator);
-        
-      hurricaneGroups
-        .exit()
-        .remove();
-        
-      hurricaneGroups
-        .select('path')
-        .classed('hurricane-path', true)
-        .attr('d', geoPathGenerator);
-
-
+      svg.selectAll('g')
+        .data(hurricaneFeatures)
+        .join(
+          enter => {
+            const group = enter.append('g').classed('hurricane-path', true);
+            group.append('path').attr('d', geoPathGenerator);
+            group.selectAll('circle')
+              .data(d => d.geometry.coordinates)
+              .join('circle')
+              .style('fill', '#f00')
+              .attr('r', 5)
+              .attr('cx', d => projection(d)[0])
+              .attr('cy', d => projection(d)[1]);
+          },
+          update => {
+            update.select('path').attr('d', geoPathGenerator);
+            update.selectAll('circle')
+              .data(d => d.geometry.coordinates)
+              .join('circle')
+              .style('fill', '#f00')
+              .attr('r', 5)
+              .attr('cx', d => projection(d)[0])
+              .attr('cy', d => projection(d)[1]);
+          },
+          exit => exit.remove()
+        );
     });
   });
 });

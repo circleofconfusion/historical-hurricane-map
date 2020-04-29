@@ -15,8 +15,13 @@ svg {
   fill: white;
 }
 
-path.hurricane-path {
+g.hurricane-path > path {
   fill: none;
   stroke: black;
   stroke-width: 3;
+}
+
+g.hurricane-path:hover > path {
+  stroke: green;
+  stroke-width: 10;
 }
