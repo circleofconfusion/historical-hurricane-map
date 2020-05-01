@@ -19,8 +19,7 @@ function search(searchData) {
       })
     )
     .subscribe({
-      next: response => hurricanes.next(response),
-      complete: () => console.log('done')
+      next: response => hurricanes.next(response)
     });
 }
 
