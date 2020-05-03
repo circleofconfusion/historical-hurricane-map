@@ -53,25 +53,69 @@ ZephComponents.define('app-map', () => {
         .data(hurricaneFeatures)
         .join(
           enter => {
-            const group = enter.append('g').classed('hurricane-path', true);
-            group.append('path').attr('d', geoPathGenerator);
+            const group = enter
+              .append('g')
+              .classed('hurricane-path', true);
+
+            const path = group
+              .append('path')
+              .attr('d', geoPathGenerator);
+
+            group.selectAll('line')
+              .data(d =>
+                d.geometry.coordinates.map((c, i) => {
+                  if (i + 1 < d.geometry.coordinates.length) {
+                    return [c, d.geometry.coordinates[i+1]];
+                  } else {
+                    return [c, c];
+                  }
+                })
+              )
+              .join('line')
+              .attr('x1', d => projection(d[0])[0])
+              .attr('y1', d => projection(d[0])[1])
+              .attr('x2', d => projection(d[1])[0])
+              .attr('y2', d => projection(d[1])[1])
+              .style('stroke', 'pink');
+
             group.selectAll('circle')
               .data(d => d.geometry.coordinates)
               .join('circle')
-              .style('fill', '#f00')
               .attr('r', 5)
               .attr('cx', d => projection(d)[0])
-              .attr('cy', d => projection(d)[1]);
+              .attr('cy', d => projection(d)[1])
+              .style('fill', '#f00');
           },
           update => {
-            update.select('path').attr('d', geoPathGenerator);
+            console.log('update', update);
+            const path = update
+              .select('path')
+              .attr('d', geoPathGenerator);
+
+            update.selectAll('line')
+              .data(d =>
+                d.geometry.coordinates.map((c, i) => {
+                  if (i + 1 < d.geometry.coordinates.length) {
+                    return [c, d.geometry.coordinates[i+1]];
+                  } else {
+                    return [c, c];
+                  }
+                })
+              )
+              .join('line')
+              .attr('x1', d => projection(d[0])[0])
+              .attr('y1', d => projection(d[0])[1])
+              .attr('x2', d => projection(d[1])[0])
+              .attr('y2', d => projection(d[1])[1])
+              .style('stroke', 'pink');
+
             update.selectAll('circle')
               .data(d => d.geometry.coordinates)
               .join('circle')
-              .style('fill', '#f00')
               .attr('r', 5)
               .attr('cx', d => projection(d)[0])
-              .attr('cy', d => projection(d)[1]);
+              .attr('cy', d => projection(d)[1])
+              .style('fill', '#f00');
           },
           exit => exit.remove()
         );
