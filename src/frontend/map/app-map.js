@@ -1,5 +1,6 @@
 import { ZephComponents, html, css, onCreate } from 'zephjs';
 import { json } from 'd3-fetch';
+import { scaleOrdinal } from 'd3-scale';
 import { geoGraticule, geoPath, geoMercator } from 'd3-geo';
 import { feature } from 'topojson-client';
 import { select } from 'd3-selection';
@@ -18,6 +19,34 @@ ZephComponents.define('app-map', () => {
     const svg = select(content.querySelector('svg'))
       .attr('viewBox', `0 0 ${width} ${height}`)
       .attr('preserveAspectRatio', 'xMidYMin meet');
+
+    const colorScale = scaleOrdinal()
+      .domain([
+        'TW',
+        'LO',
+        'DS',
+        'TD',
+        'TS',
+        'C1',
+        'C2',
+        'C3',
+        'C4',
+        'C5',
+        'EX'
+      ])
+      .range([
+        '#ffffcc',
+        '#a1dab4',
+        '#e5f5e0',
+        '#a1d99b',
+        '#31a354',
+        '#fee5d9',
+        '#fcae91',
+        '#fb6a4a',
+        '#de2d26',
+        '#a50f15',
+        '#253494'
+      ]);
 		
     const projection = geoMercator()
       .scale(350)
@@ -57,7 +86,7 @@ ZephComponents.define('app-map', () => {
               .append('g')
               .classed('hurricane-path', true);
 
-            const path = group
+            group
               .append('path')
               .attr('d', geoPathGenerator);
 
@@ -65,30 +94,35 @@ ZephComponents.define('app-map', () => {
               .data(d =>
                 d.geometry.coordinates.map((c, i) => {
                   if (i + 1 < d.geometry.coordinates.length) {
-                    return [c, d.geometry.coordinates[i+1]];
+                    return {
+                      coordinates: [c, d.geometry.coordinates[i+1]],
+                      measurements: [d.properties.measurements[i], d.properties.measurements[i+1]]
+                    };
                   } else {
-                    return [c, c];
+                    return {
+                      coordinates: [c, c],
+                      measurements: [d.properties.measurements[i], d.properties.measurements[i]]
+                    };
                   }
                 })
               )
               .join('line')
-              .attr('x1', d => projection(d[0])[0])
-              .attr('y1', d => projection(d[0])[1])
-              .attr('x2', d => projection(d[1])[0])
-              .attr('y2', d => projection(d[1])[1])
+              .attr('x1', d => projection(d.coordinates[0])[0])
+              .attr('y1', d => projection(d.coordinates[0])[1])
+              .attr('x2', d => projection(d.coordinates[1])[0])
+              .attr('y2', d => projection(d.coordinates[1])[1])
               .style('stroke', 'pink');
 
             group.selectAll('circle')
               .data(d => d.geometry.coordinates)
               .join('circle')
-              .attr('r', 5)
+              .attr('r', 3)
               .attr('cx', d => projection(d)[0])
               .attr('cy', d => projection(d)[1])
               .style('fill', '#f00');
           },
           update => {
-            console.log('update', update);
-            const path = update
+            update
               .select('path')
               .attr('d', geoPathGenerator);
 
@@ -96,23 +130,29 @@ ZephComponents.define('app-map', () => {
               .data(d =>
                 d.geometry.coordinates.map((c, i) => {
                   if (i + 1 < d.geometry.coordinates.length) {
-                    return [c, d.geometry.coordinates[i+1]];
+                    return {
+                      coordinates: [c, d.geometry.coordinates[i+1]],
+                      measurements: [d.properties.measurements[i], d.properties.measurements[i+1]]
+                    };
                   } else {
-                    return [c, c];
+                    return {
+                      coordinates: [c, c],
+                      measurements: [d.properties.measurements[i], d.properties.measurements[i]]
+                    };
                   }
                 })
               )
               .join('line')
-              .attr('x1', d => projection(d[0])[0])
-              .attr('y1', d => projection(d[0])[1])
-              .attr('x2', d => projection(d[1])[0])
-              .attr('y2', d => projection(d[1])[1])
+              .attr('x1', d => projection(d.coordinates[0])[0])
+              .attr('y1', d => projection(d.coordinates[0])[1])
+              .attr('x2', d => projection(d.coordinates[1])[0])
+              .attr('y2', d => projection(d.coordinates[1])[1])
               .style('stroke', 'pink');
 
             update.selectAll('circle')
               .data(d => d.geometry.coordinates)
               .join('circle')
-              .attr('r', 5)
+              .attr('r', 3)
               .attr('cx', d => projection(d)[0])
               .attr('cy', d => projection(d)[1])
               .style('fill', '#f00');
