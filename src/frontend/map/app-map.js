@@ -45,7 +45,7 @@ ZephComponents.define('app-map', () => {
         '#fb6a4a',
         '#de2d26',
         '#a50f15',
-        '#253494'
+        '#bd82ff'
       ]);
 		
     const projection = geoMercator()

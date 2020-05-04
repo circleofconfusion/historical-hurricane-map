@@ -12,7 +12,7 @@ svg {
 .country {
   stroke: black;
   stroke-width: 1;
-  fill: white;
+  fill: #dfbba9;
 }
 
 g.hurricane-path > path {
