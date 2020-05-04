@@ -1,5 +1,5 @@
 svg {
-  background: rgb(54, 148, 211);
+  background: rgb(106, 195, 255);
   width: 100%;
 }
 
@@ -18,10 +18,15 @@ svg {
 g.hurricane-path > path {
   fill: none;
   stroke: black;
-  stroke-width: 3;
+  stroke-width: 1;
+  stroke-linecap: round;
 }
 
 g.hurricane-path:hover > path {
-  stroke: green;
-  stroke-width: 10;
+  filter: blur(2px);
+  stroke-width: 6;
+}
+
+g.hurricane-path > line {
+  stroke-width: 3px;
 }

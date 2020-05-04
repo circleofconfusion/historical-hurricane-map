@@ -95,31 +95,38 @@ ZephComponents.define('app-map', () => {
                 d.geometry.coordinates.map((c, i) => {
                   if (i + 1 < d.geometry.coordinates.length) {
                     return {
-                      coordinates: [c, d.geometry.coordinates[i+1]],
-                      measurements: [d.properties.measurements[i], d.properties.measurements[i+1]]
+                      coordinate: c,
+                      nextCoordinate: d.geometry.coordinates[i+1],
+                      measurement: d.properties.measurements[i]
                     };
                   } else {
                     return {
-                      coordinates: [c, c],
-                      measurements: [d.properties.measurements[i], d.properties.measurements[i]]
+                      coordinate: c,
+                      nextCoordinate: c,
+                      measurement: d.properties.measurements[i]
                     };
                   }
                 })
               )
               .join('line')
-              .attr('x1', d => projection(d.coordinates[0])[0])
-              .attr('y1', d => projection(d.coordinates[0])[1])
-              .attr('x2', d => projection(d.coordinates[1])[0])
-              .attr('y2', d => projection(d.coordinates[1])[1])
-              .style('stroke', 'pink');
+              .attr('x1', d => projection(d.coordinate)[0])
+              .attr('y1', d => projection(d.coordinate)[1])
+              .attr('x2', d => projection(d.nextCoordinate)[0])
+              .attr('y2', d => projection(d.nextCoordinate)[1])
+              .style('stroke', d => colorScale(d.measurement.systemStatus));
 
             group.selectAll('circle')
-              .data(d => d.geometry.coordinates)
+              .data(d => d.geometry.coordinates.map((c, i) => {
+                return {
+                  coordinate: c,
+                  measurement: d.properties.measurements[i]
+                };
+              }))
               .join('circle')
               .attr('r', 3)
-              .attr('cx', d => projection(d)[0])
-              .attr('cy', d => projection(d)[1])
-              .style('fill', '#f00');
+              .attr('cx', d => projection(d.coordinate)[0])
+              .attr('cy', d => projection(d.coordinate)[1])
+              .style('fill', d => colorScale(d.measurement.systemStatus));
           },
           update => {
             update
@@ -131,31 +138,38 @@ ZephComponents.define('app-map', () => {
                 d.geometry.coordinates.map((c, i) => {
                   if (i + 1 < d.geometry.coordinates.length) {
                     return {
-                      coordinates: [c, d.geometry.coordinates[i+1]],
-                      measurements: [d.properties.measurements[i], d.properties.measurements[i+1]]
+                      coordinate: c,
+                      nextCoordinate: d.geometry.coordinates[i+1],
+                      measurement: d.properties.measurements[i]
                     };
                   } else {
                     return {
-                      coordinates: [c, c],
-                      measurements: [d.properties.measurements[i], d.properties.measurements[i]]
+                      coordinate: c,
+                      nextCoordinate: c,
+                      measurement: d.properties.measurements[i]
                     };
                   }
                 })
               )
               .join('line')
-              .attr('x1', d => projection(d.coordinates[0])[0])
-              .attr('y1', d => projection(d.coordinates[0])[1])
-              .attr('x2', d => projection(d.coordinates[1])[0])
-              .attr('y2', d => projection(d.coordinates[1])[1])
-              .style('stroke', 'pink');
+              .attr('x1', d => projection(d.coordinate)[0])
+              .attr('y1', d => projection(d.coordinate)[1])
+              .attr('x2', d => projection(d.nextCoordinate)[0])
+              .attr('y2', d => projection(d.nextCoordinate)[1])
+              .style('stroke', d => colorScale(d.measurement.systemStatus));
 
             update.selectAll('circle')
-              .data(d => d.geometry.coordinates)
+              .data(d => d.geometry.coordinates.map((c, i) => {
+                return {
+                  coordinate: c,
+                  measurement: d.properties.measurements[i]
+                };
+              }))
               .join('circle')
               .attr('r', 3)
-              .attr('cx', d => projection(d)[0])
-              .attr('cy', d => projection(d)[1])
-              .style('fill', '#f00');
+              .attr('cx', d => projection(d.coordinate)[0])
+              .attr('cy', d => projection(d.coordinate)[1])
+              .style('fill', d => colorScale(d.measurement.systemStatus));
           },
           exit => exit.remove()
         );
