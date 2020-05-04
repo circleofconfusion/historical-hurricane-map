@@ -88,6 +88,12 @@ def createMeasurementDict(line):
       systemStatus = 'C4'
     elif maxWind > 136:
       systemStatus = 'C5'
+  
+  # We don't really care about subtropical vs tropical storm
+  if systemStatus == 'SS':
+    systemStatus = 'TS'
+  if systemStatus == 'SD':
+    systemStatus = 'TD'
 
   return {
     'props': {
