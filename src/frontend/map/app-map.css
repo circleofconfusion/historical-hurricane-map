@@ -4,13 +4,13 @@ svg {
 }
 
 .graticule {
-  stroke: darkblue;
+  stroke: rgb(10, 15, 46);
   stroke-width: 1;
   fill: none;
 }
 
 .land {
-  fill: white;
+  fill: lightgray;
   filter: blur(2px);
 }
 
