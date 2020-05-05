@@ -1,5 +1,5 @@
 svg {
-  background: rgb(106, 195, 255);
+  background: #335376;
   width: 100%;
 }
 
@@ -9,10 +9,15 @@ svg {
   fill: none;
 }
 
+.land {
+  fill: white;
+  filter: blur(2px);
+}
+
 .country {
   stroke: black;
   stroke-width: 1;
-  fill: #dfbba9;
+  fill: #5d5750;
 }
 
 g.hurricane-path > path {
@@ -29,4 +34,9 @@ g.hurricane-path:hover > path {
 
 g.hurricane-path > line {
   stroke-width: 3px;
+}
+
+circle.measurement {
+  stroke: black;
+  stroke-width: 1px;
 }

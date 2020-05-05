@@ -35,11 +35,11 @@ ZephComponents.define('app-map', () => {
         'EX'
       ])
       .range([
-        '#ffffcc',
+        '#ffffaa',
         '#a1dab4',
-        '#e5f5e0',
-        '#a1d99b',
+        '#74c476',
         '#31a354',
+        '#006d2c',
         '#fee5d9',
         '#fcae91',
         '#fb6a4a',
@@ -58,16 +58,24 @@ ZephComponents.define('app-map', () => {
 		
     const geoPathGenerator = geoPath()
       .projection(projection);
-		
+      
+    const world = await json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json');
+    
+    const land = feature(world, world.objects.land);
+    
+    const countries = feature(world, world.objects.countries).features;
+    
+    svg.append('path')
+      .datum(land)
+      .attr('class', 'land')
+      .attr('d', geoPathGenerator)
+      .attr('fill', '#fff');
+      
     svg.append('path')
       .datum(graticule)
       .attr('class', 'graticule')
       .attr('d', geoPathGenerator);
-		
-    const world = await json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json');
-		
-    const countries = feature(world, world.objects.countries).features;
-		
+
     svg.selectAll('path.country')
       .data(countries)
       .enter()
@@ -123,6 +131,7 @@ ZephComponents.define('app-map', () => {
                 };
               }))
               .join('circle')
+              .attr('class', 'measurement')
               .attr('r', 3)
               .attr('cx', d => projection(d.coordinate)[0])
               .attr('cy', d => projection(d.coordinate)[1])
@@ -166,6 +175,7 @@ ZephComponents.define('app-map', () => {
                 };
               }))
               .join('circle')
+              .attr('class', 'measurement')
               .attr('r', 3)
               .attr('cx', d => projection(d.coordinate)[0])
               .attr('cy', d => projection(d.coordinate)[1])
