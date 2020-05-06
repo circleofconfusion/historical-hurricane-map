@@ -28,9 +28,13 @@ main {
     display: grid;
     grid-template-columns: 1fr 400px;
     flex: 1 100%;
+    overflow: hidden;
 }
 
 div.sidebar {
     border-left: 2px solid blue;
     padding: 0 5px;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    grid-gap: 10px;
 }

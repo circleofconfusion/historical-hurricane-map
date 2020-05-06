@@ -1,0 +1,14 @@
+div#hurricane-list-wrapper {
+  overflow-y: auto;
+}
+
+ul#hurricane-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul#hurricane-list li {
+  margin: 5px 0;
+  padding: 0;
+}

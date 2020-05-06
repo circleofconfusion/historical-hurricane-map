@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+:host(.WV) {
+  border: 2px solid var(--WV);
+}
+
+:host(.DB) {
+  border: 2px solid var(--DB);
+}
+
+:host(.TD) {
+  border: 2px solid var(--TD);
+}
+
+:host(.TS) {
+  border: 2px solid var(--TS);
+}
+
+:host(.C1) {
+  border: 2px solid var(--C1);
+}
+
+:host(.C2) {
+  border: 2px solid var(--C2);
+}
+
+:host(.C3) {
+  border: 2px solid var(--C3);
+}
+
+:host(.C4) {
+  border: 2px solid var(--C4);
+}
+
+:host(.C5) {
+  border: 2px solid var(--C5);
+}
+
+
+h3 {
+  text-transform: capitalize;
+  margin: 0 0 5px;
+}
