@@ -4,6 +4,7 @@ import { scaleOrdinal } from 'd3-scale';
 import { geoGraticule, geoPath, geoMercator } from 'd3-geo';
 import { feature } from 'topojson-client';
 import { select } from 'd3-selection';
+import { format, zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz';
 import { hurricanes } from '../services/eventSvc.js';
 
 ZephComponents.define('app-map', () => {
@@ -103,12 +104,14 @@ ZephComponents.define('app-map', () => {
                 d.geometry.coordinates.map((c, i) => {
                   if (i + 1 < d.geometry.coordinates.length) {
                     return {
+                      name: `${d.properties.name.charAt(0)}${d.properties.name.substring(1).toLowerCase()}`,
                       coordinate: c,
                       nextCoordinate: d.geometry.coordinates[i+1],
                       measurement: d.properties.measurements[i]
                     };
                   } else {
                     return {
+                      name: `${d.properties.name.charAt(0)}${d.properties.name.substring(1).toLowerCase()}`,
                       coordinate: c,
                       nextCoordinate: c,
                       measurement: d.properties.measurements[i]
@@ -121,11 +124,14 @@ ZephComponents.define('app-map', () => {
               .attr('y1', d => projection(d.coordinate)[1])
               .attr('x2', d => projection(d.nextCoordinate)[0])
               .attr('y2', d => projection(d.nextCoordinate)[1])
-              .style('stroke', d => colorScale(d.measurement.systemStatus));
+              .style('stroke', d => colorScale(d.measurement.systemStatus))
+              .append('title')
+              .text(d => `${d.name}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);;
 
             group.selectAll('circle')
               .data(d => d.geometry.coordinates.map((c, i) => {
                 return {
+                  name: `${d.properties.name.charAt(0)}${d.properties.name.substring(1).toLowerCase()}`,
                   coordinate: c,
                   measurement: d.properties.measurements[i]
                 };
@@ -135,7 +141,9 @@ ZephComponents.define('app-map', () => {
               .attr('r', 3)
               .attr('cx', d => projection(d.coordinate)[0])
               .attr('cy', d => projection(d.coordinate)[1])
-              .style('fill', d => colorScale(d.measurement.systemStatus));
+              .style('fill', d => colorScale(d.measurement.systemStatus))
+              .append('title')
+              .text(d => `${d.name}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);
           },
           update => {
             update
@@ -147,12 +155,14 @@ ZephComponents.define('app-map', () => {
                 d.geometry.coordinates.map((c, i) => {
                   if (i + 1 < d.geometry.coordinates.length) {
                     return {
+                      name: `${d.properties.name.charAt(0)}${d.properties.name.substring(1).toLowerCase()}`,
                       coordinate: c,
                       nextCoordinate: d.geometry.coordinates[i+1],
                       measurement: d.properties.measurements[i]
                     };
                   } else {
                     return {
+                      name: `${d.properties.name.charAt(0)}${d.properties.name.substring(1).toLowerCase()}`,
                       coordinate: c,
                       nextCoordinate: c,
                       measurement: d.properties.measurements[i]
@@ -165,11 +175,14 @@ ZephComponents.define('app-map', () => {
               .attr('y1', d => projection(d.coordinate)[1])
               .attr('x2', d => projection(d.nextCoordinate)[0])
               .attr('y2', d => projection(d.nextCoordinate)[1])
-              .style('stroke', d => colorScale(d.measurement.systemStatus));
+              .style('stroke', d => colorScale(d.measurement.systemStatus))
+              .append('title')
+              .text(d => `${d.name}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);;
 
             update.selectAll('circle')
               .data(d => d.geometry.coordinates.map((c, i) => {
                 return {
+                  name: `${d.properties.name.charAt(0)}${d.properties.name.substring(1).toLowerCase()}`,
                   coordinate: c,
                   measurement: d.properties.measurements[i]
                 };
@@ -179,7 +192,9 @@ ZephComponents.define('app-map', () => {
               .attr('r', 3)
               .attr('cx', d => projection(d.coordinate)[0])
               .attr('cy', d => projection(d.coordinate)[1])
-              .style('fill', d => colorScale(d.measurement.systemStatus));
+              .style('fill', d => colorScale(d.measurement.systemStatus))
+              .append('title')
+              .text(d => `${d.name}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);
           },
           exit => exit.remove()
         );
