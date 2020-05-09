@@ -164,7 +164,7 @@ ZephComponents.define('app-map', () => {
               .select('path')
               .attr('d', geoPathGenerator);
 
-            update.selectAll('line')
+            const lines = update.selectAll('line')
               .data(d =>
                 d.geometry.coordinates.map((c, i) => {
                   if (i + 1 < d.geometry.coordinates.length) {
@@ -183,32 +183,58 @@ ZephComponents.define('app-map', () => {
                     };
                   }
                 })
-              )
-              .join('line')
+              );
+              
+            lines.enter()
+              .append('line')
               .attr('x1', d => projection(d.coordinate)[0])
               .attr('y1', d => projection(d.coordinate)[1])
               .attr('x2', d => projection(d.nextCoordinate)[0])
               .attr('y2', d => projection(d.nextCoordinate)[1])
               .style('stroke', d => colorScale(d.measurement.systemStatus))
               .append('title')
-              .text(d => `${d.name}\n${hurricaneTypes[d.measurement.systemStatus]}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);;
+              .text(d => `${d.name}\n${hurricaneTypes[d.measurement.systemStatus]}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);
 
-            update.selectAll('circle')
+            lines.exit().remove();
+            
+            lines
+              .attr('x1', d => projection(d.coordinate)[0])
+              .attr('y1', d => projection(d.coordinate)[1])
+              .attr('x2', d => projection(d.nextCoordinate)[0])
+              .attr('y2', d => projection(d.nextCoordinate)[1])
+              .style('stroke', d => colorScale(d.measurement.systemStatus))
+              .select('title')
+              .text(d => `${d.name}\n${hurricaneTypes[d.measurement.systemStatus]}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);
+
+            const circles = update.selectAll('circle')
               .data(d => d.geometry.coordinates.map((c, i) => {
                 return {
                   name: `${d.properties.name.charAt(0)}${d.properties.name.substring(1).toLowerCase()}`,
                   coordinate: c,
                   measurement: d.properties.measurements[i]
                 };
-              }))
-              .join('circle')
+              }));
+
+            circles.enter()
+              .append('circle')
               .attr('class', 'measurement')
               .attr('r', 3)
               .attr('cx', d => projection(d.coordinate)[0])
               .attr('cy', d => projection(d.coordinate)[1])
               .style('fill', d => colorScale(d.measurement.systemStatus))
               .append('title')
-              .text(d => `${d.name}\n${hurricaneTypes[d.measurement.systemStatus]}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);
+              .text(d => { console.log('d', d); return `${d.name}\n${hurricaneTypes[d.measurement.systemStatus]}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔` });
+
+            circles
+              .attr('class', 'measurement')
+              .attr('r', 3)
+              .attr('cx', d => projection(d.coordinate)[0])
+              .attr('cy', d => projection(d.coordinate)[1])
+              .style('fill', d => colorScale(d.measurement.systemStatus))
+              .select('title')
+              .text(d => { console.log('d', d); return `${d.name}\n${hurricaneTypes[d.measurement.systemStatus]}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔` });
+            
+            circles.exit().remove();
           },
           exit => exit.remove()
         );
