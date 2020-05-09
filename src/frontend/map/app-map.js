@@ -7,6 +7,20 @@ import { select } from 'd3-selection';
 import { format, zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz';
 import { hurricanes } from '../services/eventSvc.js';
 
+const hurricaneTypes = {
+  LO: 'Non-Cyclone Low',
+  WV: 'Tropical Wave',
+  DB: 'Tropical Disturbance',
+  TD: 'Tropical Depression',
+  TS: 'Tropical Storm',
+  C1: 'Category 1 Hurricane',
+  C2: 'Category 2 Hurricane',
+  C3: 'Category 3 Hurricane',
+  C4: 'Category 4 Hurricane',
+  C5: 'Category 5 Hurricane',
+  EX: 'Extra-Tropical Cyclone'
+};
+
 ZephComponents.define('app-map', () => {
   html('./app-map.html');
   css('./app-map.css');
@@ -126,7 +140,7 @@ ZephComponents.define('app-map', () => {
               .attr('y2', d => projection(d.nextCoordinate)[1])
               .style('stroke', d => colorScale(d.measurement.systemStatus))
               .append('title')
-              .text(d => `${d.name}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);;
+              .text(d => `${d.name}\n${hurricaneTypes[d.measurement.systemStatus]}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);;
 
             group.selectAll('circle')
               .data(d => d.geometry.coordinates.map((c, i) => {
@@ -143,7 +157,7 @@ ZephComponents.define('app-map', () => {
               .attr('cy', d => projection(d.coordinate)[1])
               .style('fill', d => colorScale(d.measurement.systemStatus))
               .append('title')
-              .text(d => `${d.name}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);
+              .text(d => `${d.name}\n${hurricaneTypes[d.measurement.systemStatus]}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);
           },
           update => {
             update
@@ -177,7 +191,7 @@ ZephComponents.define('app-map', () => {
               .attr('y2', d => projection(d.nextCoordinate)[1])
               .style('stroke', d => colorScale(d.measurement.systemStatus))
               .append('title')
-              .text(d => `${d.name}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);;
+              .text(d => `${d.name}\n${hurricaneTypes[d.measurement.systemStatus]}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);;
 
             update.selectAll('circle')
               .data(d => d.geometry.coordinates.map((c, i) => {
@@ -194,7 +208,7 @@ ZephComponents.define('app-map', () => {
               .attr('cy', d => projection(d.coordinate)[1])
               .style('fill', d => colorScale(d.measurement.systemStatus))
               .append('title')
-              .text(d => `${d.name}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);
+              .text(d => `${d.name}\n${hurricaneTypes[d.measurement.systemStatus]}\n${format(utcToZonedTime(new Date(d.measurement.dateTime), 'UTC'), 'MM/dd/yyyy HH:mm', { timeZone: 'UTC'})}\n${d.measurement.maxWind} kn\n${d.measurement.minPressure > 0 ? d.measurement.minPressure : '---'} ㏔`);
           },
           exit => exit.remove()
         );
